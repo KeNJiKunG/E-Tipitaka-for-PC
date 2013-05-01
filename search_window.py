@@ -41,7 +41,7 @@ class ResultWindow(wx.html.HtmlWindow):
         if not isCompare:
             keywords = self.keywords
             
-        if lang not in self.bookFrames:
+        if True or lang not in self.bookFrames:
             self.frameId[lang] = wx.NewId()
             size,pos = None,None
             if isCompare:

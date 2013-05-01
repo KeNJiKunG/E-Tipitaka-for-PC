@@ -1484,22 +1484,24 @@ class ReadingToolFrame(wx.Frame):
         event.Skip()
         
     def OnChar(self,event):
-        trans  = {3653:49,   47:50,   45:51, 3616:52, 3606:53,
-                  3640:54, 3638:55, 3588:56, 3605:57, 3592:48, 3651:46}
+        #trans  = {3653:49,   47:50,   45:51, 3616:52, 3606:53,
+        #          3640:54, 3638:55, 3588:56, 3605:57, 3592:48, 3651:46}
         assert isinstance(event, wx.KeyEvent)
         code = event.GetKeyCode()
         modifiers = event.GetModifiers() 
-        code = trans.get(code,code)
-        
+        #code = trans.get(code,code)
+        print modifiers, code
         if modifiers == wx.MOD_NONE and code == wx.WXK_LEFT: # Handle Left Arrow
             self.DoPrev()
             self.entering = ''
         elif modifiers == wx.MOD_NONE and code == wx.WXK_RIGHT: # Handle Right Arrow
             self.DoNext()
             self.entering = ''
-        elif (code >= 48 and code <= 57) or code == 46: # 46 = '.'
+        elif modifiers == wx.MOD_CONTROL and code == 16: # Ctrl + P
+            self.OnClickPrint(event)
+        elif (code >= ord('0') and code <= ord('9')) or code == 46: # 48-57 is ascii code for 0-9 and 46 = '.'
             self.entering += chr(code)
-        elif code == 105 or code == 112 or code == 3618 or code == 3619: # 105 = 'i', 112 = 'p'
+        elif code == 105 or code == 112 or code == 3618 or code == 3619: # 105 = 'i', 112 = 'p' ## Jumper
             try:
                 if code == 3619 or code == 105:
                     self.GotoItem(self.entering)
